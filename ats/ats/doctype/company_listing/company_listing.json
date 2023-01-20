@@ -1,0 +1,114 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:c_name",
+ "creation": "2022-12-13 12:14:44.438964",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "c_name",
+  "j_count",
+  "company_details_section",
+  "c_owner",
+  "city",
+  "state",
+  "pno",
+  "c_on",
+  "m_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "c_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Company Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "j_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "No.of Job Opening",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company_details_section",
+   "fieldtype": "Section Break",
+   "label": "Company Details"
+  },
+  {
+   "fieldname": "c_owner",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Owner",
+   "reqd": 1
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "City",
+   "reqd": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "State",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pno",
+   "fieldtype": "Phone",
+   "in_list_view": 1,
+   "label": "Phone No.",
+   "reqd": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "c_on",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Created On",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "m_on",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Modified On",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-12-13 15:08:19.630088",
+ "modified_by": "Administrator",
+ "module": "Ats",
+ "name": "company_listing",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

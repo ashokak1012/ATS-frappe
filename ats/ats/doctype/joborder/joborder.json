@@ -1,0 +1,129 @@
+{
+ "actions": [],
+ "autoname": "format: {com}-{title}-{####}",
+ "creation": "2022-12-13 16:28:00.171107",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "com",
+  "type",
+  "required_employee",
+  "sts",
+  "created",
+  "expected_skill_set_section",
+  "skill_set",
+  "years_of_experience",
+  "recommended_candidates_section",
+  "candidates",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "com",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "company_listing",
+   "reqd": 1
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Full Time\nPart Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "required_employee",
+   "fieldtype": "Data",
+   "label": "Required Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sts",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nCompleted\nClosed"
+  },
+  {
+   "default": "Today",
+   "fieldname": "created",
+   "fieldtype": "Date",
+   "label": "Created",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expected_skill_set_section",
+   "fieldtype": "Section Break",
+   "label": "Expected Skill Set"
+  },
+  {
+   "fieldname": "skill_set",
+   "fieldtype": "Table",
+   "label": "Skill Set",
+   "options": "Expected Skill Set"
+  },
+  {
+   "fieldname": "years_of_experience",
+   "fieldtype": "Data",
+   "label": "Years of Experience"
+  },
+  {
+   "fieldname": "recommended_candidates_section",
+   "fieldtype": "Section Break",
+   "label": "Recommended Candidates"
+  },
+  {
+   "fieldname": "candidates",
+   "fieldtype": "Table",
+   "label": "Candidates",
+   "options": "Recommended Candidates"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "JobOrder",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2022-12-28 06:30:47.766544",
+ "modified_by": "Administrator",
+ "module": "Ats",
+ "name": "JobOrder",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
