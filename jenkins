@@ -1,0 +1,117 @@
+pipeline {
+    agent any
+    stages {
+        stage('check frappe installation') {
+            steps {
+                script {
+                    if (fileExists('/var/lib/jenkins/workspace/ATS/frappe-demo/')) {
+                        echo 'Frappe is already installed'
+                        sh 'cd frappe-demo && ls'
+                    } else {
+                        echo 'frappe not installed....Installing Now..Frappe'
+                        sh 'bench init frappe-demo'
+                    }
+                }       
+            }
+        }
+        stage('Check if site exists') {
+            steps {
+                script {
+                        if (fileExists('/var/lib/jenkins/workspace/ATS/frappe-demo/sites/frappe.dev')) {
+                            echo 'Sites is already exists'
+                            sh 'cd frappe-demo/sites && ls'
+                        } else {
+                            echo 'site does not exists....Installing Now..Sites'
+                            sh 'cd frappe-demo &&  bench new-site frappe.dev --admin-password ashok@123 --db-root-password Root'
+                            sh 'cd frappe-demo && bench use frappe.dev'
+                        }
+                        
+                }
+            }
+        }
+        stage('check erpnext') {
+            steps {
+                script {
+                    if (fileExists('/var/lib/jenkins/workspace/ATS/frappe-demo/apps/erpnext')) {
+                        echo 'Erpnext is already installed'
+                        sh 'cd frappe-demo/apps && ls'
+                    } else {
+                        echo 'Erpnext not installed....Installing Now..erpnext'
+                        sh 'cd frappe-demo && bench get-app erpnext'
+                        sh 'cd frappe-demo && bench --site frappe.dev install-app erpnext'
+                    }
+                }    
+            }
+        }
+        stage('Install ats') {
+            steps { 
+                script {
+                    withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
+
+                        if (fileExists('/var/lib/jenkins/workspace/ATS/frappe-demo/apps/ats')) {
+                            echo 'ATS is already installed'
+                            sh 'cd frappe-demo/apps && ls'
+                        } else {
+                        echo 'ATS not installed....Installing Now....ats'
+                            sh 'cd frappe-demo && bench get-app  https://github.com/Sowmyad15/ats.git'
+                            sh 'cd frappe-demo && bench --site frappe.dev install-app ats'
+                          
+                        }      
+                    }
+                }
+            }
+        }  
+        stage('git checkout') {
+            steps {
+                    git branch: 'main', credentialsId: 'github', url: 'https://github.com/ashokak1012/ATS-frappe.git'               
+                
+            }   
+        }     
+            stage('SonarQube Analysis') {
+            steps {
+                script {
+                withCredentials([string(credentialsId: 'Sonar_token', variable: 'sonarToken')]) {
+                    def scannerHome = tool 'sonarqube_scanner'
+                        withSonarQubeEnv('SOnarQube_token') {
+                            sh "${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=jenkins_token \
+                            -Dsonar.sources=/var/lib/jenkins/workspace/ATS/ats \
+                            -Dsonar.language=python \
+                            -Dsonar.sourceEncoding=UTF-8 \
+                            -Dsonar.host.url=http://127.0.0.1:9000 \
+                            -Dsonar.login=${sonarToken}"
+                        }
+                } }  
+                
+            }   
+        }
+        stage("Quality Gate"){
+            steps {
+                script {
+                    timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+                        def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        
+                        }    
+                    }
+                }
+            }
+        }   
+         stage('Run Tests') {
+             steps {
+                 script {
+                    sh 'cd frappe-demo && bench --site frappe.dev set-config allow_tests true'
+                     sh 'cd frappe-demo && bench enable-scheduler'
+                     sh 'cd frappe-demo && bench --site frappe.dev run-tests'
+                 }
+             }
+        }
+         stage('UI Tests') {
+             steps {
+                 sh 'cd frappe-demo && bench --site frappe.dev run-ui-tests frappe'
+             }
+        }    
+       
+    }
+}
