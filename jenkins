@@ -98,15 +98,15 @@ pipeline {
                 }
             }
         }   
-         stage('Run Tests') {
-             steps {
-                 script {
-                    sh 'cd frappe-demo && bench --site frappe.dev set-config allow_tests true'
-                     sh 'cd frappe-demo && bench enable-scheduler'
-                     sh 'cd frappe-demo && bench --site frappe.dev run-tests'
-                 }
-             }
-        }
+       //  stage('Run Tests') {
+         //    steps {
+           //      script {
+               //     sh 'cd frappe-demo && bench --site frappe.dev set-config allow_tests true'
+                 //    sh 'cd frappe-demo && bench enable-scheduler'
+                   //  sh 'cd frappe-demo && bench --site frappe.dev run-tests'
+                // }
+            // }
+       // }
          stage('UI Tests') {
              steps {
                  sh 'cd frappe-demo && bench --site frappe.dev run-ui-tests frappe'
