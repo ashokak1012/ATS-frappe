@@ -1,0 +1,16 @@
+
+
+image: atlassian/default-image:3
+
+pipelines:
+  default:
+    - parallel:
+      - step:
+          name: 'Build '
+          script:
+            - pipe: atlassian/ssh-run:0.4.2
+              variables:
+                SSH_USER: $server_name
+                SERVER: $HoHost_Name
+                COMMAND: 'mkdir ak'
+          
